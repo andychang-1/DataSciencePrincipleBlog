@@ -1,7 +1,6 @@
 ## Welcome to GitHub Pages
 
-<iframe width="100%" height="300" src="//jsfiddle.net/avishkas/f3wmypv9embedded/" allowfullscreen="allowfullscreen" allowpaymentrequest frameborder="0"></iframe>
-
+<iframe width="100%" height="300" src="//jsfiddle.net/avishkas/f3wmypv9/embedded/" allowfullscreen="allowfullscreen" allowpaymentrequest frameborder="0"></iframe>
 You can use the [editor on GitHub](https://github.com/Yuan-Chang-UT/DataSciencePrincipleBlog/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
