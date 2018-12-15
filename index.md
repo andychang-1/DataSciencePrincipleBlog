@@ -1,5 +1,5 @@
 ---
-
+mathjax: true
 ---
 
 
@@ -55,6 +55,6 @@ Several sets of **word embeddings** were also provided:
 
 #### Submissions are scored on F1 Score
 
-
+$$ E = m\cdot c^2 \label{eq:mc2}$$
 
 <iframe width="100%" height="300" src="//jsfiddle.net/avishkas/f3wmypv9/embedded/result/dark/" allowfullscreen="allowfullscreen" allowpaymentrequest frameborder="0"></iframe>

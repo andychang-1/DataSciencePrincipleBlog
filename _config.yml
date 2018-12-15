@@ -1,2 +1,6 @@
 theme: jekyll-theme-slate
 repository: Yuan-Chang-UT/DataSciencePrincipleBlog
+
+
+
+mathjax: true
