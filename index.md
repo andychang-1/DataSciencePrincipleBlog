@@ -1,40 +1,60 @@
-## Welcome to GitHub Pages
+---
 
-<iframe width="100%" height="300" src="//jsfiddle.net/avishkas/f3wmypv9/embedded/" allowfullscreen="allowfullscreen" allowpaymentrequest frameborder="0"></iframe>
+---
 
 
-You can use the [editor on GitHub](https://github.com/Yuan-Chang-UT/DataSciencePrincipleBlog/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
+# Data Science Principles Project: Quora Insincere questions classification
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
-### Markdown
+### Introduction
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+This is a final project done for EE 461P: Data Science Principles at the University of Texas at Austin. This project was completed by Andy Chang, Clive Unger, Nick Edelman, Nic Key, and Avishka Suduwa Dewage.
 
-```markdown
-Syntax highlighted code block
+We chose to do this problem from Kaggle: 
+kaggle.com/c/quora-insincere-questions-classification
 
-# Header 1
-## Header 2
-### Header 3
+Quora.com is a platform where people can ask questions and connect with others who contribute unique insights and quality answers.
 
-- Bulleted
-- List
+A key challenge is to weed out insincere questions, founded upon false premises, or intending to make a statement rather than look for helpful answers.
 
-1. Numbered
-2. List
+In this competition, Kagglers will develop models that identify and flag insincere questions.
 
-**Bold** and _Italic_ and `Code` text
 
-[Link](url) and ![Image](src)
-```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+### The Data
+The **training data** is 1.31m rows of data, it looks like this.
 
-### Jekyll Themes
+| qid | question_text | target |
+| -| -| -|
+| 00002165364db923c7e6 | How did Quebec nationalists see their province as a nation in the 1960s? | 0 |
+| … | … | … |
+| cd7642554d107f946d8a | What is the full form of DML? | 0 |
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Yuan-Chang-UT/DataSciencePrincipleBlog/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+The **test data** is 56.4k rows of data, it obviously does not have the target labels, it looks like this.
 
-### Support or Contact
+| qid | question_text |
+| -| -|
+| 00014894849d00ba98a9 | My voice range is A2-C5. My chest voice goes up to F4. Included sample in my higher chest range. What is my voice type?|
+| … | … |
+| fffed08be2626f74b139 | Why do all the stupid people I know tend to be left-wing?|
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+The rules by which the training data was scored is as follows:
+* Has a non-neutral tone
+* Is disparaging or inflammatory
+* Isn’t grounded in reality
+* Uses sexual content for shock value
+
+Several sets of **word embeddings** were also provided:
+* Google word2vec embeddings from Google News
+* “GloVe” word embeddings from Wikipedia
+* PPDB Paragram word Embeddings
+* fastText trained word embeddings from Wikinews
+
+
+### Evaluation
+
+#### Submissions are scored on F1 Score
+
+
+
+<iframe width="100%" height="300" src="//jsfiddle.net/avishkas/f3wmypv9/embedded/result/dark/" allowfullscreen="allowfullscreen" allowpaymentrequest frameborder="0"></iframe>
