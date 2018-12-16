@@ -45,13 +45,16 @@
 <p>This is a final project done for EE 461P: Data Science Principles at the University of Texas at Austin. This project was completed by Andy Chang, Clive Unger, Nick Edelman, Nic Key, and Avishka Suduwa Dewage.</p>
 
 <p>We chose to do this problem from Kaggle: 
-kaggle.com/c/quora-insincere-questions-classification</p>
+<a href="kaggle.com/c/quora-insincere-questions-classification">kaggle.com/c/quora-insincere-questions-classification</a></p>
 
 <p>Quora.com is a platform where people can ask questions and connect with others who contribute unique insights and quality answers.</p>
 
 <p>A key challenge is to weed out insincere questions, founded upon false premises, or intending to make a statement rather than look for helpful answers.</p>
 
 <p>In this competition, Kagglers will develop models that identify and flag insincere questions.</p>
+
+<hr />
+<hr />
 
 <h3 id="the-data">The Data</h3>
 <p>The <strong>training data</strong> is 1.31m rows of data, it looks like this.</p>
@@ -108,6 +111,8 @@ kaggle.com/c/quora-insincere-questions-classification</p>
   </tbody>
 </table>
 
+<hr />
+
 <p>The rules by which the training data was scored is as follows:</p>
 <ul>
   <li>Has a non-neutral tone</li>
@@ -124,11 +129,159 @@ kaggle.com/c/quora-insincere-questions-classification</p>
   <li>fastText trained word embeddings from Wikinews</li>
 </ul>
 
+<hr />
+<hr />
 <h3 id="evaluation">Evaluation</h3>
 
 <h4 id="submissions-are-scored-on-f1-score">Submissions are scored on F1 Score</h4>
 
-<script type="math/tex; mode=display">E = m\cdot c^2 \label{eq:mc2}</script>
+<p><img src="assets/F1_eqn.png" width="100%" /></p>
+
+<hr />
+<hr />
+<h3 id="exploratory-data-analysis">Exploratory Data Analysis</h3>
+<p>We first looked at the distribution of the target variable. The number of insincere questions is much less than the sincere, with only 6% of the training set being insincere.</p>
+
+<p>Next we looked at a word cloud of the each class to get a feel for the data. As you can see the insincere question has much more controversial words.</p>
+
+<hr />
+
+<p> 
+<img src="assets/wordcloud_good.png" alt="" />
+<img src="assets/wordcloud_good.png" alt="drawing" width="100%" /></p>
+
+<p> 
+<img src="assets/wordcloud_bad.png" alt="" />
+ </p>
+
+<hr />
+
+<p>It is hard to get much detail from a word cloud, so we look a the word frequencies of respective classes.</p>
+
+<p>Next we ran a basic Logistic Regression model so that we could examine the weights of individual words and how they influence the target variable. The words that influence are extremely offensive.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Most insincere words</th>
+      <th>Coefficient</th>
+      <th>Most sincere words</th>
+      <th>Coefficient</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>castrated</td>
+      <td>20.612</td>
+      <td>books</td>
+      <td>-5.422</td>
+    </tr>
+    <tr>
+      <td>castrate</td>
+      <td>18.014</td>
+      <td>men women</td>
+      <td>-5.606</td>
+    </tr>
+    <tr>
+      <td>liberals</td>
+      <td>17.248</td>
+      <td>differences</td>
+      <td>-5.671</td>
+    </tr>
+    <tr>
+      <td>democrats</td>
+      <td>17.019</td>
+      <td>affect</td>
+      <td>-5.688</td>
+    </tr>
+    <tr>
+      <td>muslims</td>
+      <td>16.91</td>
+      <td>christians muslims</td>
+      <td>-5.912</td>
+    </tr>
+    <tr>
+      <td>indians</td>
+      <td>15.34</td>
+      <td>black hole</td>
+      <td>-5.929</td>
+    </tr>
+    <tr>
+      <td>trump</td>
+      <td>14.543</td>
+      <td>liberals conservatives</td>
+      <td>-5.978</td>
+    </tr>
+    <tr>
+      <td>americans</td>
+      <td>14.329</td>
+      <td>tips</td>
+      <td>-5.992</td>
+    </tr>
+    <tr>
+      <td>blacks</td>
+      <td>14.226</td>
+      <td>best</td>
+      <td>-6.358</td>
+    </tr>
+    <tr>
+      <td>women</td>
+      <td>14.122</td>
+      <td>democrats republicans</td>
+      <td>-6.594</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>We also looked at the most negative weighted words, suggesting words that are most found in sincere questions. What is interesting here is that in sincere questions there is mentions of both sides of opposing ideas, such as “liberals conservatives” or “black white”. This possibly suggests that more sincere questions consider both sides of argument rather than imposing stereotypes on one.</p>
+
+<hr />
+<hr />
+<h3 id="data-preprocessing">Data Preprocessing</h3>
+<p>We had to do a lot of data cleaning to get better performance out of the models. Our cleaning method were motivated by increasing coverage of word embeddings.</p>
+
+<p>With no preprocessing only 32.77% of all vocabulary in the question corpus was covered. Only 88.14% of all the text was covered by the embedding.</p>
+
+<p>Our cleaning process proceeded as follows:</p>
+<ol>
+  <li>Expand contractions out to two words</li>
+  <li>Remove non-printable characters.</li>
+  <li>Replace special characters with words. For example ‘∞’: ‘infinity’</li>
+  <li>Replace numbers with # symbol.</li>
+  <li>Change European spellings to American and correct other common misspellings</li>
+  <li>“Facebook”,  “Instagram” , etc.  convert to “Social medium”</li>
+  <li>Remove stopwords and one character words.</li>
+</ol>
+
+<p>After all of this cleaning we improved the word embedding coverage to cover 75% of the vocab and 99.595% of the text.</p>
+
+<p>Tokenization requires data cleaning</p>
+
+<p>Data tokenizatability increased from <strong>22% to 97%</strong></p>
+
+<hr />
+<hr />
+<h3 id="modeling">Modeling</h3>
+
+<h4 id="model-1-simple-recurrent-neural-network">Model 1: Simple Recurrent Neural Network</h4>
+<p>The first model we experimented with is a simple RNN implementation in Keras. This RNN utilizes a bidirectional GRU as its recurrent unit (from other kernels, using a bidirectional LSTM as the recurrent unit didn’t seem to perform as well).</p>
+
+<p>The entire model architecture is shown below:</p>
+
+<p><img src="assets/block_diagram.png" alt="" /></p>
+
+<p><img src="assets/parameters.png" alt="" /></p>
+
+<p>For both inference and training, each input question/sentence is first cleaned, tokenized, and padded into a sequence of length 100. This is fed into the model’s first layer, the embedding layer. As previously stated, we experimented with different pre-trained embeddings (such as word2vec, GloVe etc.) and learned embeddings (from provided training data) for this layer. This RNN implementation was used for further experimentation with different embedding options.</p>
+
+<hr />
+<hr />
+
+<p>Next, a simple bidirectional GRU layer is used for temporal reasoning (a more detailed diagram of a GRU is shown below). The rest of the network is filled out with the usual suspects: fully connected, max pooling, and dropout layers.</p>
+
+<p><img src="assets/GRU.png" alt="" /></p>
+
+<p>This model performs reasonably well considering its simplicity. The top score achieved using this model is 0.67; an ensemble of RNNs using GloVe, FastText, and Paragram embeddings as the weights for the embedding layer is used to attain this score.</p>
 
 <iframe width="100%" height="300" src="//jsfiddle.net/avishkas/f3wmypv9/embedded/result/dark/" allowfullscreen="allowfullscreen" allowpaymentrequest="" frameborder="0"></iframe>
 
